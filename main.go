@@ -38,8 +38,7 @@ func init() {
 }
 
 type transferRequest struct {
-	Address           string `json:"address"`
-	ReCaptchaResponse string `json:"re_captcha_response"`
+	Address string `json:"address"`
 }
 
 func transferHandler(w http.ResponseWriter, r *http.Request) {
@@ -55,21 +54,6 @@ func transferHandler(w http.ResponseWriter, r *http.Request) {
 	if body.Address == "" {
 		utils.WriteErrorToResponse(w, 400, &types.Error{
 			Message: "address field is empty",
-		})
-		return
-	}
-
-	if body.ReCaptchaResponse == "" {
-		utils.WriteErrorToResponse(w, 400, &types.Error{
-			Message: "re_captcha_response field is empty",
-		})
-		return
-	}
-
-	if err := utils.ReCaptchaVerify(secret, body.ReCaptchaResponse, ""); err != nil {
-		utils.WriteErrorToResponse(w, 400, &types.Error{
-			Message: "failed to verify",
-			Info:    err.Error(),
 		})
 		return
 	}
