@@ -114,7 +114,7 @@ func (c *CLI) completeAndBroadcastTxSync(messages []sdk.Msg) (*sdk.TxResponse, e
 }
 
 func (c *CLI) Transfer(to, coins string) (*sdk.TxResponse, error) {
-	toAddress, err := sdk.AccAddressFromBech32(to)
+	toAddress, err := sdk.AccAddressFromHex(to)
 	if err != nil {
 		log.Println("failed to parse the address", err)
 		return nil, err
@@ -150,7 +150,7 @@ func (c *CLI) GetAccount(address sdk.AccAddress) (auth.Account, error) {
 	return account, nil
 }
 
-func newMsgSend(fromAddress, toAddress sdk.AccAddress, amount sdk.Coins) (bank.MsgSend) {
+func newMsgSend(fromAddress, toAddress sdk.AccAddress, amount sdk.Coins) bank.MsgSend {
 	return bank.MsgSend{
 		FromAddress: fromAddress,
 		ToAddress:   toAddress,
